@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Category } from '../types/wish';
+import { WishItemCard } from './WishItemCard';
 
 interface Props {
   category: Category;
@@ -32,14 +33,7 @@ export function CategorySection({ category }: Props ) {
             <Text style={styles.emptyText}>Nenhum item nesta categoria.</Text>
           ) : (
             category.items.map((item) => (
-              <View key={item.id} style={styles.itemCard}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                {item.price && (
-                  <Text style={styles.itemPrice}>
-                    R$ {item.price.toFixed(2).replace('.', ',')}
-                  </Text>
-                )}
-              </View>
+              <WishItemCard key={item.id} item={item} />
             ))
           )}
         </View>

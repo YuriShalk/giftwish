@@ -2,8 +2,9 @@ export interface WishItem {
   id: string;
   name: string;
   price: number;
-  size?: string; // string for clothes or number for shoes?
+  size?: string; // 'M', '42'
   url?: string;
+  notes?: string;
 }
 
 export interface Category {

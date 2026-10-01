@@ -5,23 +5,50 @@ export const INITIAL_CATEGORIES: Category[] = [
     id: '1',
     title: 'Roupas e Acessórios',
     items: [
-      { id: '101', name: 'Jaqueta de Couro', price: 299.9 },
-      { id: '102', name: 'Tênis de Corrida', price: 450.0 },
+      { 
+        id: '101', 
+        name: 'Jaqueta de Couro', 
+        price: 299.9,
+        size: 'G',
+        url: 'https://exemplo.com/jaqueta',
+        notes: 'Preferência por couro sintético na cor preta.'
+      },
+      { 
+        id: '102', 
+        name: 'Tênis de Corrida', 
+        price: 450.0,
+        size: '41'
+      },
     ],
   },
   {
     id: '2',
     title: 'Brinquedos e Jogos',
     items: [
-      { id: '201', name: 'Board Game Catan', price: 350.0 },
-      { id: '202', name: 'Controle PS5', price: 420.0 },
+      { 
+        id: '201', 
+        name: 'Board Game Catan', 
+        price: 350.0,
+        url: 'https://exemplo.com/catan'
+      },
+      { 
+        id: '202', 
+        name: 'Controle PS5', 
+        price: 420.0,
+        notes: 'Cor branca ou preta.'
+      },
     ],
   },
   {
     id: '3',
     title: 'Livros',
     items: [
-      { id: '301', name: 'O Senhor dos Anéis', price: 89.9 },
+      { 
+        id: '301', 
+        name: 'O Senhor dos Anéis', 
+        price: 89.9,
+        notes: 'Edição de colecionador, capa dura.'
+      },
     ],
   },
 ];
