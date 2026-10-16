@@ -1,5 +1,8 @@
+import { AddItemModal } from "@/components/AddItemModal";
 import { CategorySection } from '@/components/CategorySection';
 import { INITIAL_CATEGORIES } from '@/mock/mockData';
+import { Category, WishItem } from "@/types/wish";
+import { useState } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -11,10 +14,57 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const handleAddCategory = () => {
-    //TODO: add category method (modal or page)
-    alert('Em breve!')
-  }
+  const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const handleAddItem = (
+    categoryId: string,
+    newItem: WishItem, 
+    newCategoryTitle?: string
+  ) => {
+    setCategories((prevCategories) => {
+      // Trying create a new category
+      if (newCategoryTitle) {
+        const normalizedNewTitle = newCategoryTitle.trim().toLowerCase();
+
+        const existingCategory = prevCategories.find(
+          (cat) => cat.title.trim().toLowerCase() === normalizedNewTitle
+        );
+
+        // If exists, use the old one
+        if (existingCategory) {
+          return prevCategories.map((cat) => {
+            if (cat.id === existingCategory.id) {
+              return {
+                ...cat,
+                items: [...cat.items, newItem],
+              };
+            }
+            return cat;
+          });
+        }
+
+        // If not exists, create a new one
+        const newCategory: Category = {
+          id: Date.now().toString(),
+          title: newCategoryTitle.trim(),
+          items: [newItem],
+        };
+        return [...prevCategories, newCategory];
+      }
+
+      // Choose a existing category
+      return prevCategories.map((cat) => {
+        if (cat.id === categoryId) {
+          return {
+            ...cat,
+            items: [...cat.items, newItem],
+          };
+        }
+        return cat;
+      });
+    });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -27,19 +77,27 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          {INITIAL_CATEGORIES.map((category) => (
+          {categories.map((category) => (
             <CategorySection key={category.id} category={category} />
           ))}
         </ScrollView>
 
-        {/* Add category button */}
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={handleAddCategory}
+        {/* Add item button */}
+        <TouchableOpacity 
+          style={styles.addButton} 
+          onPress={() => setIsModalVisible(true)}
           activeOpacity={0.8}
         >
-          <Text style={styles.addButtonText}>+ Adicionar Categoria</Text>
+          <Text style={styles.addButtonText}>+ Adicionar Presente</Text>
         </TouchableOpacity>
+
+        {/* Add item modal */}
+        <AddItemModal
+          visible={isModalVisible}
+          categories={categories}
+          onClose={() => setIsModalVisible(false)}
+          onAddItem={handleAddItem}
+        />
       </View>
     </SafeAreaView>
   );
